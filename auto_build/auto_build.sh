@@ -150,8 +150,12 @@ sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.p
 #sudo chown librenms:librenms /opt/librenms/config.php
 
 #change mode from librenms
+sudo chmod 777 /opt
 sudo chmod 777 /opt/librenms
 sudo chmod 777 /opt/librenms/logs/librenms.log
+sudo chown -R librenms:librenms /opt/librenms
+sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 
 # sql backup
 sudo cat > /opt/sql_bk.sh <<EOF
@@ -160,6 +164,8 @@ sudo cat > /opt/sql_bk.sh <<EOF
 sudo mysqldump -u root -p123456 ${dbname} > sqlbk_`date +"%Y-%m-%d"`.sql
 #sudo mysql -h -u librenms -p 123456 ${dbname} < sqlbk_`date +"%Y-%m-%d"`.sql
 EOF
+
+sudo /opt/librenms/lnms migrate
 
 sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
 
