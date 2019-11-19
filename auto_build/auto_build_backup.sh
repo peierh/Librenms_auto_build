@@ -63,7 +63,7 @@ echo
 echo ==================== Step3: Set Database Config  ====================
 sudo systemctl restart mysql
 
-read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
+read -p "輸入新資料庫使用者名稱: " dbuser;
 read -p "輸入新資料庫密碼: " dbpass;
 read -p "輸入新資料庫: " dbname;
 
@@ -133,11 +133,6 @@ read -p "輸入LibreNMS使用者帳戶: " uiuser;
 read -p "輸入LibreNMS使用者密碼: " uipwd;
 read -p "輸入電子郵件: " uiemail;
 
-#修改config.json檔
-sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
-
 sudo php /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
 
 # Transfer to influxdb
@@ -186,4 +181,3 @@ echo "請於瀏覽器輸入IP"
 
 #sudo echo "0  *    * * *   root    /opt/librenms/extra_code/rrdtool_dump.sh" >> /etc/crontab
 #sudo echo "*/10  *    * * *   root    /opt/librenms/extra_code/sql_upload.sh" >> /etc/crontab
-

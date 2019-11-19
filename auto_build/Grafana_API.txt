@@ -1,0 +1,7 @@
+#Datasouce
+curl -H "Authorization: Bearer eyJrIjoiaGxMdXpoUnJ2R0tkdkgwbk5ucW5SaThjRXpNVWtPaUQiLCJuIjoidGVzdCIsImlkIjoxfQ==" http://172.17.0.2:3000/api/dashboards/home
+
+#Dashboard
+curl --user admin:admin "http://localhost:3000/api/dashboards/db" -X POST -H "Content-Type:application/json" --data @/home/work/dash.json
+
+
