@@ -22,7 +22,7 @@ done
 date -s "$time"
 sudo apt update
 
-start ssh
+#start ssh
 /etc/init.d/ssh start
 
 # install packages
@@ -133,7 +133,7 @@ read -p "輸入LibreNMS使用者帳戶: " uiuser;
 read -p "輸入LibreNMS使用者密碼: " uipwd;
 read -p "輸入電子郵件: " uiemail;
 
-sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
+
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
@@ -172,11 +172,14 @@ sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
 sudo /etc/init.d/cron restart
 
 #修改config.json檔
+cd 
 sudo chmod 777 Librenms_auto_build/auto_build/config.json
 sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
 sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
 sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
+#add user
+sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
 
 echo ==================== Install Complete ====================
 echo
