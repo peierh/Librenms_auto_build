@@ -133,7 +133,13 @@ read -p "輸入LibreNMS使用者帳戶: " uiuser;
 read -p "輸入LibreNMS使用者密碼: " uipwd;
 read -p "輸入電子郵件: " uiemail;
 
-
+#change mode from librenms
+sudo chmod 777 /opt
+sudo chmod 777 /opt/librenms
+sudo chmod 777 /opt/librenms/logs/librenms.log
+sudo chown -R librenms:librenms /opt/librenms
+sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/:
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
@@ -149,13 +155,7 @@ sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.p
 # final step
 #sudo chown librenms:librenms /opt/librenms/config.php
 
-#change mode from librenms
-sudo chmod 777 /opt
-sudo chmod 777 /opt/librenms
-sudo chmod 777 /opt/librenms/logs/librenms.log
-sudo chown -R librenms:librenms /opt/librenms
-sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+
 
 # sql backup
 sudo cat > /opt/sql_bk.sh <<EOF
@@ -173,10 +173,16 @@ sudo /etc/init.d/cron restart
 
 #修改config.json檔
 cd 
-sudo chmod 777 Librenms_auto_build/auto_build/config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+cd Librenms_auto_build/auto_build/
+# sudo chmod 777 Librenms_auto_build/auto_build/config.json
+# sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+# sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+# sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+sudo chmod 777 ./config.json
+sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
+sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
+sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
+
 
 #add user
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
