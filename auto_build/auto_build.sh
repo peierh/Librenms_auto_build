@@ -35,7 +35,7 @@ echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /et
 sudo apt-get update
 sudo apt-get install php7.2-cli -y
 sudo apt update
-sudo apt install curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
+sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
 
 # add librenms user
 sudo useradd librenms -d /opt/librenms -M -r
