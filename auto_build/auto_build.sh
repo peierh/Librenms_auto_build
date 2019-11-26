@@ -175,18 +175,15 @@ sudo /etc/init.d/cron restart
 #修改config.json檔
 cd 
 cd Librenms_auto_build/auto_build/
-# sudo chmod 777 Librenms_auto_build/auto_build/config.json
-# sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
-# sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
-# sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
-#sudo chmod 777 ./config.json
-#sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
-#sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
-#sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
-udo chmod 777 Librenms_auto_build/auto_build/config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+
+sudo chmod 777 ./config.json
+sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
+sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
+sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
+#sudo chmod 777 Librenms_auto_build/auto_build/config.json
+#sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+#sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+#sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
 #add user
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
