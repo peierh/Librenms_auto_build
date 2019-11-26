@@ -42,13 +42,14 @@ sudo useradd librenms -d /opt/librenms -M -r
 sudo usermod -a -G librenms www-data
 
 # download librenms
+sudo chmod 777 /opt
 cd /opt
 sudo git clone https://github.com/librenms/librenms.git
 
 # set permissions
 sudo apt install acl -y
 sudo chown -R librenms:librenms /opt/librenms
-sudo chmod 770 /opt/librenms
+sudo chmod 777 /opt/librenms
 sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 
@@ -178,11 +179,14 @@ cd Librenms_auto_build/auto_build/
 # sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
 # sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
 # sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
-sudo chmod 777 ./config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
-
+#sudo chmod 777 ./config.json
+#sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
+#sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
+#sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
+udo chmod 777 Librenms_auto_build/auto_build/config.json
+sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
 #add user
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
