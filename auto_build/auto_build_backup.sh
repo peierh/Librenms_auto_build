@@ -22,7 +22,7 @@ done
 date -s "$time"
 sudo apt update
 
-start ssh
+#start ssh
 /etc/init.d/ssh start
 
 # install packages
@@ -35,20 +35,21 @@ echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /et
 sudo apt-get update
 sudo apt-get install php7.2-cli -y
 sudo apt update
-sudo apt install curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
+sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
 
 # add librenms user
 sudo useradd librenms -d /opt/librenms -M -r
 sudo usermod -a -G librenms www-data
 
 # download librenms
+sudo chmod 777 /opt
 cd /opt
 sudo git clone https://github.com/librenms/librenms.git
 
 # set permissions
 sudo apt install acl -y
 sudo chown -R librenms:librenms /opt/librenms
-sudo chmod 770 /opt/librenms
+sudo chmod 777 /opt/librenms
 sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 
@@ -63,7 +64,7 @@ echo
 echo ==================== Step3: Set Database Config  ====================
 sudo systemctl restart mysql
 
-read -p "輸入新資料庫使用者名稱: " dbuser;
+read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
 read -p "輸入新資料庫密碼: " dbpass;
 read -p "輸入新資料庫: " dbname;
 
@@ -133,7 +134,13 @@ read -p "輸入LibreNMS使用者帳戶: " uiuser;
 read -p "輸入LibreNMS使用者密碼: " uipwd;
 read -p "輸入電子郵件: " uiemail;
 
-sudo php /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
+#change mode from librenms
+sudo chmod 777 /opt
+sudo chmod 777 /opt/librenms
+sudo chmod 777 /opt/librenms/logs/librenms.log
+sudo chown -R librenms:librenms /opt/librenms
+sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/:
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
@@ -149,13 +156,7 @@ sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.p
 # final step
 #sudo chown librenms:librenms /opt/librenms/config.php
 
-#change mode from librenms
-sudo chmod 777 /opt
-sudo chmod 777 /opt/librenms
-sudo chmod 777 /opt/librenms/logs/librenms.log
-sudo chown -R librenms:librenms /opt/librenms
-sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+
 
 # sql backup
 sudo cat > /opt/sql_bk.sh <<EOF
@@ -171,6 +172,25 @@ sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
 
 sudo /etc/init.d/cron restart
 
+#修改config.json檔
+cd 
+cd Librenms_auto_build/auto_build/
+# sudo chmod 777 Librenms_auto_build/auto_build/config.json
+# sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+# sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+# sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+#sudo chmod 777 ./config.json
+#sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
+#sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
+#sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
+sudo chmod 777 Librenms_auto_build/auto_build/config.json
+sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+
+#add user
+sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
+
 echo ==================== Install Complete ====================
 echo
 echo "請於瀏覽器輸入IP"
@@ -181,3 +201,4 @@ echo "請於瀏覽器輸入IP"
 
 #sudo echo "0  *    * * *   root    /opt/librenms/extra_code/rrdtool_dump.sh" >> /etc/crontab
 #sudo echo "*/10  *    * * *   root    /opt/librenms/extra_code/sql_upload.sh" >> /etc/crontab
+
