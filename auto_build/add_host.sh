@@ -1,6 +1,7 @@
 #!/bin/bash
 ip=$(hostname -I)
-echo $ip
+lenth=${#ip}
+ipnew=${ip:0:lenth-1}
 
-#sudo sed -i "34c \$config['nets'][] = \"$ip/32\"; " /opt/librenms/config.php
+sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
 /opt/librenms/snmp-scan.py
