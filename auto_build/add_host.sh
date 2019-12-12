@@ -3,6 +3,8 @@ ip=$(hostname -I)
 lenth=${#ip}
 ipnew=${ip:0:lenth-1}
 
+echo $ip
+
 sudo sed -i "33c \$config['snmp']['community'][] = \"a123456\";" /opt/librenms/config.php
 sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
 sudo sed -i "35c \$config['autodiscovery']['nets-exclude'][] = '$ipnew/32';" /opt/librenms/config.php
