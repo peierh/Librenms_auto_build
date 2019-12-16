@@ -9,11 +9,11 @@ read -p "請輸入學校代碼" sn;
 read -p "輸入電子郵件: " uiemail;
 
 #database data
-dbuser=${sn}user
+dbuser=lib${sn}user
 #read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
-dbpass=${sn}pass
+dbpass=lib${sn}pass
 #read -p "輸入新資料庫密碼: " dbpass;
-dbname=${sn}name
+dbname=lib${sn}name
 #read -p "輸入新資料庫: " dbname;
 
 #SNMP community
