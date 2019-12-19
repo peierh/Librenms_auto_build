@@ -1,0 +1,8 @@
+#get API key
+curl -X POST -H "Content-Type: application/json" -d '{"name":"apikeycurl", "role": "Admin"}' http://admin:admin@localhost:3000/api/auth/keys | sed -n 's|.*"key":"\([^"]*\)".*|\1|p'
+
+#datasource setting
+curl -H "Content-Type: apication/json" -H "Authorization: Bearer eyJrIjoiSUI0cG5MVThJMlFSc0IwejR1T1p3UlU3N3RyS1lWdVIiLCJuIjoiYXBpa2V5Y3VybCIsImlkIjoxfQ==" --request POST --data @/home/work/grafana_setting/datasource/test.json  http://localhost:3000/api/datasources
+
+#create dashboard
+curl --user admin:admin "http://localhost:3000/api/dashboards/db" -X POST -H "Content-Type:application/json" --data @/home/work/dash.json

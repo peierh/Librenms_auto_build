@@ -218,6 +218,11 @@ sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php
 sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/librenms/config.php
 /opt/librenms/snmp-scan.py
 
+echo ==================== Grafana Built =======================
+sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/
+sudo python3 /home/pi/School_Monitor_System/Client/enviroment.py
+sudo nohup python3 -u /home/pi/School_Monitor_System/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
+
 
 echo ==================== Install Complete ====================
 echo

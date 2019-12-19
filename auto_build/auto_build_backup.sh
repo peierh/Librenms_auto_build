@@ -5,6 +5,32 @@ echo ==================== Start Install ====================
 # change timezon
 sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
+read -p "請輸入學校代碼" sn;
+read -p "輸入電子郵件: " uiemail;
+
+#database data
+dbuser=lib${sn}user
+#read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
+dbpass=lib${sn}pass
+#read -p "輸入新資料庫密碼: " dbpass;
+dbname=lib${sn}name
+#read -p "輸入新資料庫: " dbname;
+
+#SNMP community
+comm=${sn}
+#read -p "input snmp community: " comm;
+
+#UI data
+uiuser=${sn}user
+#read -p "輸入LibreNMS使用者帳戶: " uiuser;
+uipwd=${sn}pass
+#read -p "輸入LibreNMS使用者密碼: " uipwd;
+
+sudo chmod 777 Librenms_auto_build/auto_build/config.json
+sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+
 #change time
 while true;
 do
@@ -64,10 +90,6 @@ echo
 echo ==================== Step3: Set Database Config  ====================
 sudo systemctl restart mysql
 
-read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
-read -p "輸入新資料庫密碼: " dbpass;
-read -p "輸入新資料庫: " dbname;
-
 sudo mysql --user="$root" --password=" "  --execute="CREATE DATABASE ${dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
 sudo mysql --user="$root" --password=" "  --execute="CREATE USER '${dbuser}'@'%' IDENTIFIED BY '${dbpass}';"
 sudo mysql --user="$root" --password=" "  --execute="GRANT ALL PRIVILEGES ON ${dbname}.* TO '${dbuser}'@'%';"
@@ -109,7 +131,6 @@ sudo systemctl restart apache2
 # configure snmp
 sudo cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf
 
-read -p "input snmp community: " comm;
 sudo sed -i "2c com2sec readonly  default        ${comm} # RANDOMSTRINGGOESHERE" /etc/snmp/snmpd.conf
 
 sudo curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
@@ -129,10 +150,6 @@ sudo sed -i "6c \$config['db_host'] = 'localhost';" /opt/librenms/config.php
 sudo sed -i "7c \$config['db_user'] = '${dbuser}';" /opt/librenms/config.php
 sudo sed -i "8c \$config['db_pass'] = '${dbpass}';" /opt/librenms/config.php
 sudo sed -i "9c \$config['db_name'] = '${dbname}';" /opt/librenms/config.php
-
-read -p "輸入LibreNMS使用者帳戶: " uiuser;
-read -p "輸入LibreNMS使用者密碼: " uipwd;
-read -p "輸入電子郵件: " uiemail;
 
 #change mode from librenms
 sudo chmod 777 /opt
@@ -173,13 +190,13 @@ sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
 sudo /etc/init.d/cron restart
 
 #修改config.json檔
-cd 
-cd Librenms_auto_build/auto_build/
+#cd 
+#cd Librenms_auto_build/auto_build/
 
-sudo chmod 777 ./config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
+#sudo chmod 777 ./config.json
+#sudo sed -i "3c \"name\":\"${dbuser}\"," ./config.json
+#sudo sed -i "7c \"user\":\"${uiuser}\"," ./config.json
+#sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
 #sudo chmod 777 Librenms_auto_build/auto_build/config.json
 #sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
 #sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
@@ -187,6 +204,20 @@ sudo sed -i "9c \"database\":\"${dbname}\"," ./config.json
 
 #add user
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
+
+#add host 
+ip=$(hostname -I)
+lenth=${#ip}
+ipnew=${ip:0:lenth-1}
+
+sudo sed -i "33c \$config['snmp']['community'][] = \"${comm}\";" /opt/librenms/config.php
+sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
+#sudo sed -i "35c \$config['autodiscovery']['nets-exclude'][] = '$ipnew/32';" /opt/librenms/config.php
+sudo sed -i "36c \$config['allow_duplicate_sysName'] = true; " /opt/librenms/config.php
+sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php
+sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/librenms/config.php
+/opt/librenms/snmp-scan.py
+
 
 echo ==================== Install Complete ====================
 echo
