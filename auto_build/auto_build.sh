@@ -32,20 +32,20 @@ sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.j
 sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
 #change time
-while true;
-do
-	read -p "輸入現在日期、時間(example: 2019-10-10 10:10:10)" time;
+#while true;
+#do
+#	read -p "輸入現在日期、時間(example: 2019-10-10 10:10:10)" time;
+#
+#	if [ ! -n "$time" ]; then
+#		echo "輸入現在日期、時間"
+#		echo "example: 2019-10-10 10:10:10"
+#	else
+#		echo $time
+#		break
+#	fi
+#done
 
-	if [ ! -n "$time" ]; then
-		echo "輸入現在日期、時間"
-		echo "example: 2019-10-10 10:10:10"
-	else
-		echo $time
-		break
-	fi
-done
-
-date -s "$time"
+#date -s "$time"
 sudo apt update
 
 #start ssh
