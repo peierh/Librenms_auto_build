@@ -220,6 +220,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== Grafana Built =======================
 sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
+sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
 sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
 
 
