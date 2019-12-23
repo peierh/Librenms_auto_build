@@ -131,7 +131,7 @@ sudo systemctl restart apache2
 # configure snmp
 sudo cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf
 
-sudo sed -i "2c com2sec readonly  default        ${comm} # RANDOMSTRINGGOESHERE" /etc/snmp/snmpd.conf
+#sudo sed -i "2c com2sec readonly  default        ${comm} # RANDOMSTRINGGOESHERE" /etc/snmp/snmpd.conf
 
 sudo curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
 sudo chmod +x /usr/bin/distro
@@ -216,7 +216,7 @@ sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
 sudo sed -i "36c \$config['allow_duplicate_sysName'] = true; " /opt/librenms/config.php
 sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php
 sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/librenms/config.php
-/opt/librenms/snmp-scan.py
+#/opt/librenms/snmp-scan.py
 
 echo ==================== Grafana Built =======================
 sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
