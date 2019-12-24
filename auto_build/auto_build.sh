@@ -131,7 +131,7 @@ sudo systemctl restart apache2
 # configure snmp
 sudo cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf
 
-#sudo sed -i "2c com2sec readonly  default        ${comm} # RANDOMSTRINGGOESHERE" /etc/snmp/snmpd.conf
+sudo sed -i "2c com2sec readonly  default        ${comm} # RANDOMSTRINGGOESHERE" /etc/snmp/snmpd.conf
 
 sudo curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
 sudo chmod +x /usr/bin/distro
