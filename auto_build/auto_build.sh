@@ -219,9 +219,11 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 #/opt/librenms/snmp-scan.py
 
 echo ==================== Grafana Built =======================
-sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
-sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
-sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
+sudo git clone https://github.com/j13tw/School_Monitor_System.git
+sudo sed -i "3c command=python3 selfCheck.py $comm" /home/pi/School_Monitor_System/Client/client.conf 
+sudo python3 /home/pi/School_Monitor_System/Client/rnviroment.py
+#sudo python3 /home/pi/Librenms_auto_build/Client/enviroment.py
+#sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
 
 
 echo ==================== Install Complete ====================
