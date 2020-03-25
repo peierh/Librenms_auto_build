@@ -47,7 +47,8 @@ sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/conf
 
 #date -s "$time"
 sudo apt update
-
+export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8" 
 #start ssh
 /etc/init.d/ssh start
 
@@ -221,7 +222,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 echo ==================== Grafana Built =======================
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
 sudo sed -i "3c command=python3 selfCheck.py $comm" /home/pi/School_Monitor_System/Client/client.conf 
-sudo python3 /home/pi/School_Monitor_System/Client/environment.py
+sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
 
