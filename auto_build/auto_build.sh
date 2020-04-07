@@ -65,7 +65,7 @@ sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapa
 sudo apt install influxdb influxdb-client -y
 
 #influxdb create and setting
-sudo service influxd restart
+sudo service influxdb restart
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE database ${dbname}"
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE user ${dbuser} with password '${dbpass}'"
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=grant all PRIVILEGES TO ${dbuser}"

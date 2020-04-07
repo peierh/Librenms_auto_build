@@ -83,7 +83,7 @@ sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/boo
 sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 
 #create influxdb user database
-sudo service influxd restart
+sudo service influxdb restart
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE database ${dbname}"
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE user ${dbuser} with password '${dbpass}'"
 sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=grant all PRIVILEGES TO ${dbuser}"
