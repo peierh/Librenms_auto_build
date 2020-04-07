@@ -32,20 +32,20 @@ sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.j
 sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
 #change time
-while true;
-do
-	read -p "輸入現在日期、時間(example: 2019-10-10 10:10:10)" time;
+#while true;
+#do
+#	read -p "輸入現在日期、時間(example: 2019-10-10 10:10:10)" time;
+#
+#	if [ ! -n "$time" ]; then
+#		echo "輸入現在日期、時間"
+#		echo "example: 2019-10-10 10:10:10"
+#	else
+#		echo $time
+#		break
+#	fi
+#done
 
-	if [ ! -n "$time" ]; then
-		echo "輸入現在日期、時間"
-		echo "example: 2019-10-10 10:10:10"
-	else
-		echo $time
-		break
-	fi
-done
-
-date -s "$time"
+#date -s "$time"
 sudo apt update
 
 #start ssh
@@ -216,7 +216,14 @@ sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
 sudo sed -i "36c \$config['allow_duplicate_sysName'] = true; " /opt/librenms/config.php
 sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php
 sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/librenms/config.php
-/opt/librenms/snmp-scan.py
+#/opt/librenms/snmp-scan.py
+
+echo ==================== Grafana Built =======================
+sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
+sudo sed -i "3c command=python3 selfCheck.py $comm" /home/pi/School_Monitor_System/Client/client.conf 
+sudo python3 /home/pi/School_Monitor_System/Client/environment.py
+#sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
+#sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
 
 
 echo ==================== Install Complete ====================

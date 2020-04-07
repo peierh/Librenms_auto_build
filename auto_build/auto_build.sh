@@ -62,6 +62,15 @@ sudo apt-get update
 sudo apt-get install php7.2-cli -y
 sudo apt update
 sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
+sudo apt install influxdb influxdb-client -y
+
+#influxdb create and setting
+sudo service influxd restart
+sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE database ${dbname}"
+sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE user ${dbuser} with password '${dbpass}'"
+sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=grant all PRIVILEGES TO ${dbuser}"
+sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=GRANT ALL ON ${dbname} TO ${dbuser}"
+
 
 # add librenms user
 sudo useradd librenms -d /opt/librenms -M -r
