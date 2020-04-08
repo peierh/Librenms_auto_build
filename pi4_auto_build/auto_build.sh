@@ -172,11 +172,11 @@ sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstra
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['transport'] = 'https';" >> /opt/librenms/config.php  # Default, other options: https, udp
-sudo echo "\$config['influxdb']['host'] = '10.0.0.182';" >> /opt/librenms/config.php
+sudo echo "\$config['influxdb']['host'] = '127.0.0.1';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['port'] = '8088';" >> /opt/librenms/config.php # http:8086 https:8088
-sudo echo "\$config['influxdb']['db'] = 'librenms';" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['username'] = 'admin';" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['password'] = 'admin';" >> /opt/librenms/config.php
+sudo echo "\$config['influxdb']['db'] = '${dbname}';" >> /opt/librenms/config.php
+sudo echo "\$config['influxdb']['username'] = '${dbuser}';" >> /opt/librenms/config.php
+sudo echo "\$config['influxdb']['password'] = '${dbpass}';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['timeout'] = 0;" >> /opt/librenms/config.php # Optional
 sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.php # Optional
 
@@ -187,7 +187,6 @@ sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.p
 
 # sql backup
 sudo cat > /opt/sql_bk.sh <<EOF
-#!/bin/bash
 
 sudo mysqldump -u root -p123456 ${dbname} > sqlbk_`date +"%Y-%m-%d"`.sql
 #sudo mysql -h -u librenms -p 123456 ${dbname} < sqlbk_`date +"%Y-%m-%d"`.sql
