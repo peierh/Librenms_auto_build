@@ -172,9 +172,9 @@ sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstra
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['transport'] = 'https';" >> /opt/librenms/config.php  # Default, other options: https, udp
+sudo echo "\$config['influxdb']['transport'] = 'http';" >> /opt/librenms/config.php  # Default, other options: https, udp
 sudo echo "\$config['influxdb']['host'] = '127.0.0.1';" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['port'] = '8088';" >> /opt/librenms/config.php # http:8086 https:8088
+sudo echo "\$config['influxdb']['port'] = '8086';" >> /opt/librenms/config.php # http:8086 https:8088
 sudo echo "\$config['influxdb']['db'] = '${dbname}';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['username'] = '${dbuser}';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['password'] = '${dbpass}';" >> /opt/librenms/config.php
