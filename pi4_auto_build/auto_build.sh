@@ -4,10 +4,31 @@ echo ==================== Start Install ====================
 
 # change timezon
 sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
-
-read -p "請輸入學校代碼" sn;
+while true;
+do
+	read -p "請輸入學校代碼" sn;
+	echo "您的學校代碼是$sn嗎？"
+	read -p "(是y/否n)"a1;
+	if [$a1 -eq "y"]
+		echo "已確認您的學校代碼是$sn"
+		break
+	else
+		echo "請重新輸入學校代碼"
+	fi
+done
 read -p "輸入電子郵件: " uiemail;
-
+while true;
+do
+	read -p "請輸入IP："cs;
+	echo "您輸入的IP是 $cs 嗎？"
+	read -p "（是y/否n）" a2;
+	if [$a2 -eq "y"]
+		echo "已確認您的IP是$cs"
+		break
+	else
+		echo "請重新輸入"
+	fi
+done
 #database data
 dbuser=lib${sn}user
 #read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
@@ -230,7 +251,8 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== Grafana Built =======================
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
-sudo sed -i "3c command=python3 selfCheck.py $comm" /home/pi/School_Monitor_System/Client/client.conf 
+#sudo sed -i "11a csip = $cs" /home/pi/School_Monitor_System/Client/client.conf
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs" /home/pi/School_Monitor_System/Client/client.conf 
 sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
