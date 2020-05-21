@@ -17,17 +17,36 @@ do
 	fi
 done
 read -p "輸入電子郵件: " uiemail;
+#!/bin/bash  
+# blog: http://lizhenliang.blog.51cto.com  
+function check_ip() {      
+local IP=$1      
+VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')      
+if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/null; then
+	if [ $VALID_CHECK == "yes" ]; then
+     		#echo "IP $IP  available!"
+		echo "請問您輸入的是 $IP 嗎？"
+		read -p "y(是)/n(否): " ans
+		if [ $ans == "y" ];then
+			echo "已確認您的IP是: $IP"
+			return 0
+		else
+			echo "請重新輸入IP"
+			return 1 
+		fi          
+	else              
+		#echo "IP $IP not available!"
+		echo "IP格式錯誤 請重新輸入"
+  		return 1          
+	fi      
+else          
+	echo "IP format error!"
+	return 1
+fi   }   
 while true;
-do
-	read -p "請輸入IP："cs;
-	echo "您輸入的IP是 $cs 嗎？"
-	read -p "（是y/否n）" a2;
-	if [$a2 -eq "y"]
-		echo "已確認您的IP是$cs"
-		break
-	else
-		echo "請重新輸入"
-	fi
+do      
+	read -p "請輸入IP: " cs      
+	check_ip $cs      [ $? -eq 0 ] && break  
 done
 #database data
 dbuser=lib${sn}user
