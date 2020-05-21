@@ -7,7 +7,38 @@ sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 read -p "請輸入學校代碼" sn;
 read -p "輸入電子郵件: " uiemail;
-
+#
+function check_ip() {
+local IP=$1
+VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
+if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/null; then
+	if [ $VALID_CHECK == "yes" ]; then
+     		#echo "IP $IP  available!"
+		echo "請問您輸入的是 $IP 嗎？"
+		read -p "y(是)/n(否): " ans
+		if [ $ans == "y" ];then
+			echo "已確認您的IP是: $IP"
+			return 0
+		else
+			echo "請重新輸入IP"
+			return 1
+		fi
+	else
+		#echo "IP $IP not available!"
+		echo "IP格式錯誤 請重新輸入"
+  		return 1
+	fi
+else
+	echo "IP format error!"
+	return 1
+fi   }
+while true;
+do
+	read -p "請輸入IP: " cs
+	check_ip $cs      [ $? -eq 0 ] && break
+done
+#
+#read -p "請輸入IP： " cs;
 #database data
 dbuser=lib${sn}user
 #read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
@@ -63,6 +94,7 @@ sudo add-apt-repository ppa:ondrej/php
 #sudo apt-get install php7.2-cli -y
 sudo apt update
 sudo apt install php7.2 -y
+sudo apt install influxdb influxdb-client -y
 sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
 
 # add librenms user
@@ -222,7 +254,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== Grafana Built =======================
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System
-sudo sed -i "3c command=python3 selfCheck.py $comm" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf 
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf 
 sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
