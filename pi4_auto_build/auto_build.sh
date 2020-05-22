@@ -6,10 +6,10 @@ echo ==================== Start Install ====================
 sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 while true;
 do
-	read -p "請輸入學校代碼" sn;
-	echo "您的學校代碼是$sn嗎？"
-	read -p "(是y/否n)"a1;
-	if [$a1 -eq "y"];then
+	read -p "請輸入學校代碼: " sn;
+#	echo "您的學校代碼是$sn嗎？"
+	read -p "您輸入的IP是$sn嗎? (是y/否n) " a1;
+	if [ $a1 == "y" ]; then
 		echo "已確認您的學校代碼是$sn"
 		break
 	else
@@ -25,8 +25,8 @@ VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}'
 if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/null; then
 	if [ $VALID_CHECK == "yes" ]; then
      		#echo "IP $IP  available!"
-		echo "請問您輸入的是 $IP 嗎？"
-		read -p "y(是)/n(否): " ans
+		#echo "請問您輸入的是 $IP 嗎？"
+		read -p "請問您的IP是$IP嗎？ y(是)/n(否): " ans
 		if [ $ans == "y" ];then
 			echo "已確認您的IP是: $IP"
 			return 0
@@ -45,8 +45,19 @@ else
 fi   }   
 while true;
 do      
-	read -p "請輸入IP: " cs      
+	read -p "請輸入 Core Switch IP: " cs      
 	check_ip $cs      [ $? -eq 0 ] && break  
+done
+while true;
+do
+	read -p"請輸入雲端 Server 資訊: " sip
+	read -p"請問您輸入的資訊是正確的嗎? $sip (是y/否n) " a2
+	if [ $a2 == "y" ]; then
+		echo "已確認您輸入的是 $sip"
+		break
+       	else
+		echo "請重新輸入"
+ 	fi		
 done
 #database data
 dbuser=lib${sn}user
@@ -271,7 +282,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 echo ==================== Grafana Built =======================
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
 #sudo sed -i "11a csip = $cs" /home/pi/School_Monitor_System/Client/client.conf
-sudo sed -i "3c command=python3 selfCheck.py $comm $cs" /home/pi/School_Monitor_System/Client/client.conf 
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/pi/School_Monitor_System/Client/client.conf 
 sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
