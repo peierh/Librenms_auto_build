@@ -9,7 +9,7 @@ do
 	read -p "請輸入學校代碼" sn;
 	echo "您的學校代碼是$sn嗎？"
 	read -p "(是y/否n)"a1;
-	if [$a1 -eq "y"]
+	if [$a1 -eq "y"];then
 		echo "已確認您的學校代碼是$sn"
 		break
 	else
