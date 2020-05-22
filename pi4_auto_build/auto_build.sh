@@ -7,10 +7,10 @@ sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 while true;
 do
 	read -p "請輸入學校代碼: " sn;
-#	echo "您的學校代碼是$sn嗎？"
-	read -p "您輸入的IP是$sn嗎? (是y/否n) " a1;
+#	echo "您的學校代碼是 $sn 嗎？"
+	read -p "您輸入的學校代碼是 $sn 嗎? (是y/否n) " a1;
 	if [ $a1 == "y" ]; then
-		echo "已確認您的學校代碼是$sn"
+		echo "已確認您的學校代碼是 $sn"
 		break
 	else
 		echo "請重新輸入學校代碼"
@@ -26,17 +26,17 @@ if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/nul
 	if [ $VALID_CHECK == "yes" ]; then
      		#echo "IP $IP  available!"
 		#echo "請問您輸入的是 $IP 嗎？"
-		read -p "請問您的IP是$IP嗎？ y(是)/n(否): " ans
+		read -p "請問您的IP是 $IP 嗎？ y(是)/n(否): " ans
 		if [ $ans == "y" ];then
-			echo "已確認您的IP是: $IP"
+			echo "已確認您的 Core Switch IP 是: $IP"
 			return 0
 		else
-			echo "請重新輸入IP"
+			echo "請重新輸入 Core Switch IP"
 			return 1 
 		fi          
 	else              
 		#echo "IP $IP not available!"
-		echo "IP格式錯誤 請重新輸入"
+		echo "Core Switch IP 格式錯誤，請重新輸入。"
   		return 1          
 	fi      
 else          
@@ -51,12 +51,12 @@ done
 while true;
 do
 	read -p"請輸入雲端 Server 資訊: " sip
-	read -p"請問您輸入的資訊是正確的嗎? $sip (是y/否n) " a2
+	read -p"請問確認您輸入的雲端資訊 $sip 是否正確? (是y/否n) " a2
 	if [ $a2 == "y" ]; then
-		echo "已確認您輸入的是 $sip"
+		echo "已確認您輸入的雲端資訊是 $sip"
 		break
        	else
-		echo "請重新輸入"
+		echo "請重新輸入雲端 Server 資訊"
  	fi		
 done
 #database data
