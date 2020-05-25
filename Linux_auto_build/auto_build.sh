@@ -124,12 +124,14 @@ sudo apt install python3 python3-pip python3-dev -y
 sudo useradd librenms -d /opt/librenms -M -r
 sudo usermod -a -G librenms www-data
 
-# download librenms
+echo ============================================ download librenms ===========================================
 sudo chmod 777 /opt
 cd /opt
 sudo git clone https://github.com/librenms/librenms.git
-sudo git checkout 1.62
-
+echo ===========================================================
+cd /opt/librenms
+sudo git checkout 1_62
+cd /opt
 # set permissions
 sudo apt install acl -y
 sudo chown -R librenms:librenms /opt/librenms
@@ -142,7 +144,6 @@ echo
 echo ==================== Step2: Install LibreNMS  ====================
 cd /opt/librenms
 sudo ./scripts/composer_wrapper.php install --no-dev
-
 # configure mysql
 echo
 echo ==================== Step3: Set Database Config  ====================
