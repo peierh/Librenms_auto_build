@@ -128,6 +128,7 @@ sudo usermod -a -G librenms www-data
 sudo chmod 777 /opt
 cd /opt
 sudo git clone https://github.com/librenms/librenms.git
+sudo git checkout 1.62
 
 # set permissions
 sudo apt install acl -y
