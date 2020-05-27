@@ -18,6 +18,7 @@ do
 	fi
 done
 read -p "輸入電子郵件: " uiemail;
+
 function check_ip() {
 local IP=$1
 VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
@@ -58,7 +59,9 @@ do
 		echo "請重新輸入雲端 Server 資訊"
  	fi
 done
+
 #
+#read -p "請輸入IP： " cs;
 #database data
 dbuser=lib${sn}user
 #read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
@@ -105,40 +108,30 @@ sudo apt update
 # install packages
 echo
 echo ==================== Step1: Download and Install Packages ===================
-sudo apt install software-properties-common -y
-sudo apt-get install apt-transport-https lsb-release ca-certificates -y
-sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+#sudo apt install software-properties-common -y
+#sudo apt-get install apt-transport-https lsb-release ca-certificates -y
+#sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+#echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
 sudo apt-get update
-sudo apt-get install php7.2-cli -y
+sudo add-apt-repository ppa:ondrej/php
+#sudo apt-get install php7.2-cli -y
 sudo apt update
+sudo apt install php7.2 -y
 sudo apt install influxdb influxdb-client -y
 sudo apt install vim curl apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
-sudo apt install influxdb influxdb-client -y
 sudo apt install python3 python3-pip python3-dev -y
-#influxdb create and setting
-sudo service influxdb restart
-sleep 5
-sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE database ${dbname}"
-sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=CREATE user ${dbuser} with password '${dbpass}'"
-sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=grant all PRIVILEGES TO ${dbuser}"
-sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=GRANT ALL ON ${dbname} TO ${dbuser}"
-
-
 # add librenms user
 sudo useradd librenms -d /opt/librenms -M -r
 sudo usermod -a -G librenms www-data
 
-# download librenms
+echo ============================================ download librenms ===========================================
 sudo chmod 777 /opt
 cd /opt
-sudo git clone https://github.com/andy212130/librenms.git
-
+sudo git clone https://github.com/librenms/librenms.git
+echo ===========================================================
 cd /opt/librenms
 sudo git checkout 1_62
-
 cd /opt
-
 # set permissions
 sudo apt install acl -y
 sudo chown -R librenms:librenms /opt/librenms
@@ -151,7 +144,6 @@ echo
 echo ==================== Step2: Install LibreNMS  ====================
 cd /opt/librenms
 sudo ./scripts/composer_wrapper.php install --no-dev
-
 # configure mysql
 echo
 echo ==================== Step3: Set Database Config  ====================
@@ -224,7 +216,7 @@ sudo chmod 777 /opt/librenms
 sudo chmod 777 /opt/librenms/logs/librenms.log
 sudo chown -R librenms:librenms /opt/librenms
 sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/:
+sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
@@ -273,12 +265,12 @@ sudo /etc/init.d/cron restart
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
 
 #add host 
-ip=$(hostname -I)
-lenth=${#ip}
-ipnew=${ip:0:lenth-1}
+#ip=$(hostname -I)
+#lenth=${#ip}
+#ipnew=${ip:0:lenth-1}
 
 sudo sed -i "33c \$config['snmp']['community'][] = \"${comm}\";" /opt/librenms/config.php
-sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
+#sudo sed -i "34c \$config['nets'][] = \"$ipnew/32\"; " /opt/librenms/config.php
 #sudo sed -i "35c \$config['autodiscovery']['nets-exclude'][] = '$ipnew/32';" /opt/librenms/config.php
 sudo sed -i "36c \$config['allow_duplicate_sysName'] = true; " /opt/librenms/config.php
 sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php
@@ -286,9 +278,9 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 #/opt/librenms/snmp-scan.py
 
 echo ==================== Grafana Built =======================
-sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
-sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/pi/School_Monitor_System/Client/client.conf 
-sudo python3 /home/pi/School_Monitor_System/Client/environment.py
+sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf 
+sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &
 

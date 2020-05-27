@@ -4,10 +4,61 @@ echo ==================== Start Install ====================
 
 # change timezon
 sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
-
-read -p "請輸入學校代碼" sn;
+while true;
+do
+	read -p "請輸入學校代碼: " sn;
+#	echo "您的學校代碼是 $sn 嗎？"
+	read -p "您輸入的學校代碼是 $sn 嗎? (是y/否n) " a1;
+	if [ $a1 == "y" ]; then
+		echo "已確認您的學校代碼是 $sn"
+		break
+	else
+		echo "請重新輸入學校代碼"
+	fi
+done
 read -p "輸入電子郵件: " uiemail;
-
+#!/bin/bash  
+# blog: http://lizhenliang.blog.51cto.com  
+function check_ip() {      
+local IP=$1      
+VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')      
+if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/null; then
+	if [ $VALID_CHECK == "yes" ]; then
+     		#echo "IP $IP  available!"
+		#echo "請問您輸入的是 $IP 嗎？"
+		read -p "請問您的IP是 $IP 嗎？ y(是)/n(否): " ans
+		if [ $ans == "y" ];then
+			echo "已確認您的 Core Switch IP 是: $IP"
+			return 0
+		else
+			echo "請重新輸入 Core Switch IP"
+			return 1 
+		fi          
+	else              
+		#echo "IP $IP not available!"
+		echo "Core Switch IP 格式錯誤，請重新輸入。"
+  		return 1          
+	fi      
+else          
+	echo "IP format error!"
+	return 1
+fi   }   
+while true;
+do      
+	read -p "請輸入 Core Switch IP: " cs      
+	check_ip $cs      [ $? -eq 0 ] && break  
+done
+while true;
+do
+	read -p"請輸入雲端 Server 資訊: " sip
+	read -p"請問確認您輸入的雲端資訊 $sip 是否正確? (是y/否n) " a2
+	if [ $a2 == "y" ]; then
+		echo "已確認您輸入的雲端資訊是 $sip"
+		break
+       	else
+		echo "請重新輸入雲端 Server 資訊"
+ 	fi		
+done
 #database data
 dbuser=lib${sn}user
 #read -p "輸入新資料庫使用者名稱: (學校代碼)" dbuser;
@@ -65,7 +116,7 @@ sudo apt update
 sudo apt install vim curl -y
 sudo apt install influxdb influxdb-client -y
 sudo apt install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y
-
+sudo apt install python3 python3-pip python3-dev -y
 # add librenms user
 sudo useradd librenms -d /opt/librenms -M -r
 sudo usermod -a -G librenms www-data
@@ -172,9 +223,9 @@ sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstra
 
 # Transfer to influxdb
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['transport'] = 'https';" >> /opt/librenms/config.php  # Default, other options: https, udp
+sudo echo "\$config['influxdb']['transport'] = 'http';" >> /opt/librenms/config.php  # Default, other options: https, udp
 sudo echo "\$config['influxdb']['host'] = '127.0.0.1';" >> /opt/librenms/config.php
-sudo echo "\$config['influxdb']['port'] = '8088';" >> /opt/librenms/config.php # http:8086 https:8088
+sudo echo "\$config['influxdb']['port'] = '8086';" >> /opt/librenms/config.php # http:8086 https:8088
 sudo echo "\$config['influxdb']['db'] = '${dbname}';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['username'] = '${dbuser}';" >> /opt/librenms/config.php
 sudo echo "\$config['influxdb']['password'] = '${dbpass}';" >> /opt/librenms/config.php
@@ -230,7 +281,8 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== Grafana Built =======================
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System
-sudo sed -i "3c command=python3 selfCheck.py $comm" /home/pi/School_Monitor_System/Client/client.conf 
+#sudo sed -i "11a csip = $cs" /home/pi/School_Monitor_System/Client/client.conf
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/pi/School_Monitor_System/Client/client.conf 
 sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py
 #sudo python3 /home/pi/Librenms_auto_build/Client/environment.py
 #sudo nohup python3 -u /home/pi/Librenms_auto_build/Client/selfCheck.py ${sn} > /home/pi/client.log 2>&1 &

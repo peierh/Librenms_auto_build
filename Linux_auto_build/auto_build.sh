@@ -127,7 +127,7 @@ sudo usermod -a -G librenms www-data
 echo ============================================ download librenms ===========================================
 sudo chmod 777 /opt
 cd /opt
-sudo git clone https://github.com/librenms/librenms.git
+sudo git clone https://github.com/andy212130/librenms.git
 echo ===========================================================
 cd /opt/librenms
 sudo git checkout 1_62
