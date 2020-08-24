@@ -134,7 +134,6 @@ sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=GRANT ALL ON $
 echo
 echo ==================== Step2: Install LibreNMS  ====================
 cd /opt/librenms
-read -p "等會請輸入yes(按Enter以繼續)" pause
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
@@ -182,7 +181,7 @@ sudo curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms
 sudo chmod +x /usr/bin/distro
 sudo systemctl restart snmpd
 
-# cron job
+# cron job 
 sudo cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms
 
 # copying logrotate congfig
@@ -216,15 +215,14 @@ sudo echo "\$config['influxdb']['verifySSL'] = false;" >> /opt/librenms/config.p
 
 # sql backup
 sudo cat > /opt/sql_bk.sh <<EOF
-
 sudo mysqldump -uroot ${dbname} > sqlbk_`date +"%Y-%m-%d"`.sql
 EOF
+sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
+sudo /etc/init.d/cron restart
 
 sudo /opt/librenms/lnms migrate
 
-sudo echo "*/10  *    * * *   root    /opt/sql_bk.sh" >> /etc/crontab
-
-sudo /etc/init.d/cron restart
+read -p "等會請輸入yes(按Enter以繼續)" pause
 
 #adding user to LibreNMS
 sudo /opt/librenms/adduser.php ${uiuser} ${uipwd} 10 ${uiemail}
