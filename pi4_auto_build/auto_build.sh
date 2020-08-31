@@ -17,15 +17,12 @@ do
 	fi
 done
 read -p "輸入電子郵件: " uiemail;
-#!/bin/bash  
-# blog: http://lizhenliang.blog.51cto.com  
-function check_ip() {      
-local IP=$1      
-VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')      
+ 
+function check_ip() {
+local IP=$1
+VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
 if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/null; then
 	if [ $VALID_CHECK == "yes" ]; then
-     		#echo "IP $IP  available!"
-		#echo "請問您輸入的是 $IP 嗎？"
 		read -p "請問您的IP是 $IP 嗎？ y(是)/n(否): " ans
 		if [ $ans == "y" ];then
 			echo "已確認您的 Core Switch IP 是: $IP"
@@ -33,9 +30,8 @@ if echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$" >/dev/nul
 		else
 			echo "請重新輸入 Core Switch IP"
 			return 1 
-		fi          
-	else              
-		#echo "IP $IP not available!"
+		fi
+	else
 		echo "Core Switch IP 格式錯誤，請重新輸入。"
   		return 1          
 	fi      
@@ -44,9 +40,9 @@ else
 	return 1
 fi   }   
 while true;
-do      
-	read -p "請輸入 Core Switch IP: " cs      
-	check_ip $cs      [ $? -eq 0 ] && break  
+do
+	read -p "請輸入 Core Switch IP: " cs 
+	check_ip $cs      [ $? -eq 0 ] && break
 done
 while true;
 do
@@ -77,10 +73,10 @@ uiuser=${sn}user
 uipwd=${sn}pass
 #read -p "輸入LibreNMS使用者密碼: " uipwd;
 
-sudo chmod 777 Librenms_auto_build/auto_build/config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
-sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
+#sudo chmod 777 Librenms_auto_build/auto_build/config.json
+#sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
+#sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
+#sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
 
 #change time
 #while true;
