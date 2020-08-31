@@ -3,7 +3,7 @@
 echo ==================== Start Install ====================
 
 # change timezon
-sudo /bin/cp -af /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 while true;
 do
 	read -p "請輸入學校代碼: " sn;
@@ -17,6 +17,8 @@ do
 	fi
 done
 read -p "輸入電子郵件: " uiemail;
+#!/bin/bash  
+# blog: http://lizhenliang.blog.51cto.com  
 function check_ip() {      
 local IP=$1      
 VALID_CHECK=$(echo $cs|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')      
@@ -76,7 +78,6 @@ uipwd=${sn}pass
 #read -p "輸入LibreNMS使用者密碼: " uipwd;
 
 sudo chmod 777 Librenms_auto_build/auto_build/config.json
-echo -----debug:這裡sed-----
 sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json
 sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json
 sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json
