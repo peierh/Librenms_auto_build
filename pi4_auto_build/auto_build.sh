@@ -150,6 +150,7 @@ sudo curl -i -G "http://localhost:8086/query" --data-urlencode "q=GRANT ALL ON $
 echo
 echo ==================== Step2: Install LibreNMS  ====================
 cd /opt/librenms
+sudo ./scripts/composer_wrapper.php self-update --1
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
