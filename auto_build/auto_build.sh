@@ -150,6 +150,7 @@ sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/boo
 echo
 echo ==================== Step2: Install LibreNMS  ====================
 cd /opt/librenms
+sudo ./scripts/composer_wrapper.php self-update --1
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
