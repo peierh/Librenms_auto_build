@@ -9,7 +9,7 @@ echo "------------------------------------------------------"
 echo ==================== 安裝開始 ====================
 
 # change timezon
-sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime >> $logPath
+sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime >> $logPath 2>&1
 #
 while true;
 do
