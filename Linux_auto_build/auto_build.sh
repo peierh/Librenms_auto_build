@@ -162,11 +162,10 @@ sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/boo
 echo
 echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
+echo 開始安裝 LibreNMS，請稍後
 echo "$(date '+%Y-%m-%d %H:%M:%S')    LibreNMS installation" >> $logPath
-echo "./scripts/composer_wrapper.php self-update --1"
-sudo ./scripts/composer_wrapper.php self-update --1
-echo "sudo ./scripts/composer_wrapper.php install --no-dev"
-sudo ./scripts/composer_wrapper.php install --no-dev
+sudo ./scripts/composer_wrapper.php self-update --1  >> $logPath 2>&1
+sudo ./scripts/composer_wrapper.php install --no-dev >> $logPath 2>&1
 # configure mysql
 echo
 echo ==================== Step3: 設定資料庫  ====================
@@ -290,7 +289,7 @@ echo ==================== 安裝Grafana =======================
 echo 下載Grafana
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf  >> $logPath
-echo 執行安裝
+echo 執行安裝，請稍後
 sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath 2>&1
 
 
