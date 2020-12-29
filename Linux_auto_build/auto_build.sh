@@ -163,7 +163,7 @@ echo
 echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
 echo "$(date '+%Y-%m-%d %H:%M:%S')    LibreNMS installation" >> $logPath
-sudo ./scripts/composer_wrapper.php self-update --1 >> $logPath
+sudo ./scripts/composer_wrapper.php self-update --1
 sudo ./scripts/composer_wrapper.php install --no-dev
 # configure mysql
 echo
