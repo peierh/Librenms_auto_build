@@ -297,3 +297,5 @@ echo "請於瀏覽器輸入IP"
 #sudo echo "0  *    * * *   root    /opt/librenms/extra_code/rrdtool_dump.sh" >> /etc/crontab
 #sudo echo "*/10  *    * * *   root    /opt/librenms/extra_code/sql_upload.sh" >> /etc/crontab
 
+#autoclean client.log
+sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/$(logname)/client.log.1\" ] && rm /home/$(logname)/client.log.*" >> /etc/crontab)'
