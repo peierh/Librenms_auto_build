@@ -4,8 +4,7 @@
 logPath="/tmp/client.log"
 echo "--> Installation export to >> $logPath"
 echo "--> Get install log by using \"tail -f " $logPath "\""
-echo "------------------------------------------------------"
-
+echo 
 echo ==================== 安裝開始 ====================
 
 # change timezon
@@ -87,9 +86,9 @@ uipwd=${sn}pass
 #read -p "輸入LibreNMS使用者密碼: " uipwd;
 
 sudo chmod 777 Librenms_auto_build/auto_build/config.json
-sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json >> $logPath
-sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json >> $logPath 
-sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json >> $logPath
+sudo sed -i "3c \"name\":\"${dbuser}\"," Librenms_auto_build/auto_build/config.json >> $logPath 2>&1
+sudo sed -i "7c \"user\":\"${uiuser}\"," Librenms_auto_build/auto_build/config.json >> $logPath  2>&1
+sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/config.json >> $logPath 2>&1
 
 #change time
 #while true;
@@ -105,11 +104,7 @@ sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/conf
 #	fi
 #done
 
-sudo apt update >> $logPath
-
-#start ssh
-echo start ssh >> $logPath
-/etc/init.d/ssh start >> $logPath
+sudo apt-get update >> $logPath
 
 # install packages
 echo
