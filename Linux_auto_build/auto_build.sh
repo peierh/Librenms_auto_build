@@ -245,10 +245,10 @@ sudo sed -i "9c \$config['db_name'] = '${dbname}';" /opt/librenms/config.php >> 
 echo "$(date '+%Y-%m-%d %H:%M:%S')    change mode from librenms" >> $logPath
 sudo chmod 777 /opt >> $logPath
 sudo chmod 777 /opt/librenms >> $logPath
-sudo chmod 777 /opt/librenms/logs/librenms.log >> $logPath
-sudo chown -R librenms:librenms /opt/librenms >> $logPath
-sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/ >> $logPath
-sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/ >> $logPath
+sudo chmod 777 /opt/librenms/logs/librenms.log >> $logPath 2>&1
+sudo chown -R librenms:librenms /opt/librenms >> $logPath 2>&1
+sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/ >> $logPath 2>&1
+sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/ >> $logPath 2>&1
 
 # Transfer to influxdb
 echo 設定 influxdb
@@ -291,7 +291,7 @@ echo 下載Grafana
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf  >> $logPath
 echo 執行安裝
-sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath
+sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath 2>&1
 
 
 echo ==================== 安裝完成 ====================
