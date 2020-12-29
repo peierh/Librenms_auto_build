@@ -116,23 +116,23 @@ sudo apt-get update >> $logPath
 echo 安裝必要套件
 echo "$(date '+%Y-%m-%d %H:%M:%S')    add-apt-repository ppa:ondrej/php" >> $logPath
 sudo add-apt-repository ppa:ondrej/php -y >> $logPath
-sudo apt update
+sudo apt-get update >> $logPath
 
 echo 安裝php
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt install php7.2" >> $logPath
-sudo apt install php7.2 -y >>  $logPath
+sudo apt-get install php7.2 -y >>  $logPath
 
 echo 安裝influxdb
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt install influxdb" >> $logPath
-sudo apt install influxdb influxdb-client -y >> $logPath
+sudo apt-get install influxdb influxdb-client -y >> $logPath
 
 echo 安裝python相關套件
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt install python3" >> $logPath
-sudo apt install python3 python3-pip python3-dev -y >> $logPath
+sudo apt-get install python3 python3-pip python3-dev -y >> $logPath
 
 echo 安裝其他必要套件
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt install other packages" >> $logPath
-sudo apt install vim curl apache2 composer acl fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
+sudo apt-get install vim curl apache2 composer acl fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
 
 # add librenms user
 echo 新增 librenms 使用者
@@ -164,7 +164,7 @@ echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
 echo "$(date '+%Y-%m-%d %H:%M:%S')    LibreNMS installation" >> $logPath
 sudo ./scripts/composer_wrapper.php self-update --1 >> $logPath
-sudo ./scripts/composer_wrapper.php install --no-dev >> $logPath
+sudo ./scripts/composer_wrapper.php install --no-dev
 # configure mysql
 echo
 echo ==================== Step3: 設定資料庫  ====================
@@ -175,16 +175,16 @@ sudo mysql --user="$root" --password=" "  --execute="CREATE DATABASE ${dbname} C
 sudo mysql --user="$root" --password=" "  --execute="CREATE USER '${dbuser}'@'%' IDENTIFIED BY '${dbpass}';" >> $logPath
 sudo mysql --user="$root" --password=" "  --execute="GRANT ALL PRIVILEGES ON ${dbname}.* TO '${dbuser}'@'%';" >> $logPath
 sudo mysql --user="$root" --password=" "  --execute="FLUSH PRIVILEGES;" >> $logPath
-sudo sed -i "13c innodb_file_per_table=1" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath
-sudo sed -i "13a lower_case_table_names=0" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath
-sudo sed -i "31c #bind-address       = 127.0.0.1" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath
+sudo sed -i "13c innodb_file_per_table=1" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath 2>&1
+sudo sed -i "13a lower_case_table_names=0" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath 2>&1
+sudo sed -i "31c #bind-address       = 127.0.0.1" /etc/mysql/mariadb.conf.d/50-server.cnf >> $logPath 2>&1
 sudo systemctl restart mysql >> $logPath
 
 # configure php
 echo 設定php
 echo "$(date '+%Y-%m-%d %H:%M:%S')    configure php" >> $logPath
-sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/apache2/php.ini >> $logPath
-sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/cli/php.ini >> $logPath
+sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/apache2/php.ini >> $logPath 2>&1
+sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/cli/php.ini >> $logPath 2>&1
 
 sudo a2enmod php7.2 >> $logPath
 sudo a2dismod mpm_event >> $logPath
@@ -287,9 +287,9 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 echo ==================== 安裝Grafana =======================
 echo 下載Grafana
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
-sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf   >> $logPath
+sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf  >> $logPath
 echo 執行安裝
-sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py  >> $logPath
+sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath
 
 
 echo ==================== 安裝完成 ====================
