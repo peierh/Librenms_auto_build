@@ -306,4 +306,4 @@ echo "請於瀏覽器輸入IP"
 #sudo echo "*/10  *    * * *   root    /opt/librenms/extra_code/sql_upload.sh" >> /etc/crontab
 
 #autoclean client.log
-echo "0 0 5 * * root [ -f \"/home/pi/client.log.1\" ] && rm /home/pi/client.log.*"
+sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/$(logname)/client.log.1\" ] && rm /home/$(logname)/client.log.*" >> /etc/crontab)'
