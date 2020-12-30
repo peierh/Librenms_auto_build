@@ -285,11 +285,11 @@ sudo sed -i "37c \$config['discovery_by_ip'] = true; " /opt/librenms/config.php 
 sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/librenms/config.php >> $logPath
 #/opt/librenms/snmp-scan.py
 
-echo ==================== 安裝Grafana =======================
-echo 下載Grafana
+echo ==================== 安裝雲端同步專案功能 =======================
+echo 下載雲端同步專案
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf  >> $logPath
-echo 執行安裝，請稍後
+echo 執行雲端同步專案安裝，請稍後
 sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath 2>&1
 
 
