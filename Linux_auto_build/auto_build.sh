@@ -253,7 +253,7 @@ sudo chmod -R ug=rwX /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstra
 echo 設定 influxdb
 echo "$(date '+%Y-%m-%d %H:%M:%S')    Transfer to influxdb" >> $logPath
 sudo echo "\$config['influxdb']['enable'] = true;" >> /opt/librenms/config.php >> $logPath
-sudo echo "\$config['influxdb']['transport'] = 'http';" >> /opt/librenms/config.php  >> $logPath# Default, other options: https, udp
+sudo echo "\$config['influxdb']['transport'] = 'http';" >> /opt/librenms/config.php  >> $logPath # Default, other options: https, udp
 sudo echo "\$config['influxdb']['host'] = '127.0.0.1';" >> /opt/librenms/config.php >> $logPath
 sudo echo "\$config['influxdb']['port'] = '8086';" >> /opt/librenms/config.php >> $logPath # http:8086 https:8088
 sudo echo "\$config['influxdb']['db'] = '${dbname}';" >> /opt/librenms/config.php >> $logPath
