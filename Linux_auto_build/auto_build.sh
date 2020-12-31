@@ -225,7 +225,7 @@ sudo systemctl restart snmpd >> $logPath
 echo 設定系統例行性工作
 echo "$(date '+%Y-%m-%d %H:%M:%S')    cron job" >> $logPath
 sudo cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms >> $logPath
-sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/$(logname)/client.log.1\" ] && rm /home/$(logname)/client.log.*" >> /etc/crontab)'
+sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/ubuntu/client.log.1\" ] && rm /home/ubuntu/client.log.*" >> /etc/crontab)'
 
 # copy logrotate congfig
 echo "$(date '+%Y-%m-%d %H:%M:%S')    copy logrotate congfig" >> $logPath
