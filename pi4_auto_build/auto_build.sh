@@ -100,7 +100,7 @@ sudo sed -i "9c \"database\":\"${dbname}\"," Librenms_auto_build/auto_build/conf
 #done
 
 #date -s "$time"
-sudo apt update >> $logPath
+sudo apt-get update >> $logPath
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8" 
 #start ssh
@@ -109,7 +109,7 @@ export LC_CTYPE="en_US.UTF-8"
 # install packages
 echo
 echo ==================== Step1: 下載並安裝必要套件 ===================
-sudo apt install software-properties-common -y >> $logPath
+sudo apt-get install software-properties-common -y >> $logPath
 sudo apt-get install apt-transport-https lsb-release ca-certificates -y >> $logPath
 sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg >> $logPath
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list >> $logPath
@@ -222,7 +222,7 @@ sudo systemctl restart snmpd >> $logPath
 echo 設定系統例行性工作
 echo "$(date '+%Y-%m-%d %H:%M:%S')    cron job" >> $logPath
 sudo cp /opt/librenms/librenms.nonroot.cron /etc/cron.d/librenms  >> $logPath
-sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/$(logname)/client.log.1\" ] && rm /home/$(logname)/client.log.*" >> /etc/crontab)'
+sudo bash -c '(echo "0 0 5 * * root [ -f \"/home/pi/client.log.1\" ] && rm /home/pi/client.log.*" >> /etc/crontab)'
 
 # copy logrotate congfig
 sudo cp /opt/librenms/misc/librenms.logrotate /etc/logrotate.d/librenms >> $logPath 2>&1
