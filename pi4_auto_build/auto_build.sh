@@ -284,7 +284,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 
 echo ==================== 安裝雲端同步專案功能 =======================
-echo 下載雲端同步專案
+echo 下載並安裝雲端同步專案
 sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/pi/School_Monitor_System/Client/client.conf  >> $logPath
 sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py >> $logPath 2>&1
