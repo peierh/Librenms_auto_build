@@ -129,7 +129,7 @@ echo ============================================ 下載 librenms ==============
 sudo chmod 777 /opt
 cd /opt
 echo "$(date '+%Y-%m-%d %H:%M:%S')    git clone NMS" >> $logPath
-sudo git clone https://github.com/andy212130/librenms.git
+sudo git clone https://github.com/ntu20200101/librenms.git
 cd /opt/librenms
 sudo git checkout 1_62
 cd /opt
@@ -285,7 +285,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== 安裝雲端同步專案功能 =======================
 echo 下載並安裝雲端同步專案
-sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/pi/School_Monitor_System  >> $logPath
+sudo git clone https://github.com/ntu20200101/School_Monitor_System.git /home/pi/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/pi/School_Monitor_System/Client/client.conf  >> $logPath
 sudo python3 /home/pi/School_Monitor_System/Client/raspi-4-buster/environment.py >> $logPath 2>&1
 
