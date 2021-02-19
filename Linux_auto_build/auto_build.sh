@@ -145,7 +145,7 @@ sudo chmod 777 /opt
 cd /opt
 echo 下載 librenms
 echo "$(date '+%Y-%m-%d %H:%M:%S')    git clone NMS" >> $logPath
-sudo git clone https://github.com/andy212130/librenms.git >> $logPath
+sudo git clone https://github.com/ntu20200101/librenms.git >> $logPath
 echo ===========================================================
 cd /opt/librenms
 sudo git checkout 1_62 >> $logPath
@@ -287,7 +287,7 @@ sudo sed -i "38c \$config['discovery_modules']['discover-arp'] = true; " /opt/li
 
 echo ==================== 安裝雲端同步專案功能 =======================
 echo 下載雲端同步專案
-sudo git clone https://github.com/j13tw/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
+sudo git clone https://github.com/ntu20200101/School_Monitor_System.git /home/ubuntu/School_Monitor_System  >> $logPath
 sudo sed -i "3c command=python3 selfCheck.py $comm $cs $sip" /home/ubuntu/School_Monitor_System/Client/x86_PC/client.conf  >> $logPath
 echo 執行雲端同步專案安裝，請稍後
 sudo python3 /home/ubuntu/School_Monitor_System/Client/x86_PC/environment.py >> $logPath 2>&1
