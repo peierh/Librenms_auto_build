@@ -131,7 +131,8 @@ cd /opt
 echo "$(date '+%Y-%m-%d %H:%M:%S')    git clone NMS" >> $logPath
 sudo git clone https://github.com/peierh/librenms.git
 cd /opt/librenms
-sudo git checkout 1_62
+#sudo git checkout 1_62
+sudo git checkout 21_7
 cd /opt
 
 # add librenms user
@@ -161,8 +162,8 @@ echo
 echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
 echo 開始安裝 LibreNMS，請稍後
-sudo ./scripts/composer_wrapper.php self-update --1
-#sudo ./scripts/composer_wrapper.php self-update --stable
+#sudo ./scripts/composer_wrapper.php self-update --1
+sudo ./scripts/composer_wrapper.php self-update --stable
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
