@@ -116,14 +116,12 @@ echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /et
 echo 作業系統更新
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt update" >> $logPath
 sudo apt-get update >> $logPath
-#sudo apt-get install php7.2-cli -y >> $logPath
-sudo apt-get install php7.3-cli -y >> $logPath
+sudo apt-get install php7.2-cli -y >> $logPath
 sudo apt-get update >> $logPath
 sudo apt-get install vim curl -y >> $logPath
 sudo apt-get install influxdb influxdb-client -y >> $logPath
 sudo apt-get install acl -y >> $logPath
-#sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
-sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.3 mariadb-client mariadb-server mtr-tiny nmap php7.3-cli php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-snmp php7.3-xml php7.3-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
+sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
 sudo apt-get install python3 python3-pip python3-dev -y >> $logPath
 
 # download librenms
@@ -132,9 +130,9 @@ sudo chmod 777 /opt
 cd /opt
 echo "$(date '+%Y-%m-%d %H:%M:%S')    git clone NMS" >> $logPath
 sudo git clone https://github.com/peierh/librenms.git
-#cd /opt/librenms
-#sudo git checkout 1_62
-#cd /opt
+cd /opt/librenms
+sudo git checkout 1_62
+cd /opt
 
 # add librenms user
 echo 新增 librenms 使用者
@@ -163,8 +161,7 @@ echo
 echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
 echo 開始安裝 LibreNMS，請稍後
-#sudo ./scripts/composer_wrapper.php self-update --1
-sudo ./scripts/composer_wrapper.php self-update --stable
+sudo ./scripts/composer_wrapper.php self-update --1
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
@@ -191,8 +188,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S')    configure php" >> $logPath
 sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/apache2/php.ini >> $logPath 2>&1
 sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/cli/php.ini >> $logPath 2>&1
 
-#sudo a2enmod php7.2 >> $logPath
-sudo a2enmod php7.3 >> $logPath
+sudo a2enmod php7.2 >> $logPath
 sudo a2dismod mpm_event >> $logPath
 sudo a2enmod mpm_prefork >> $logPath
 
