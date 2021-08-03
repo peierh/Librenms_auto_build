@@ -161,8 +161,8 @@ echo
 echo ==================== Step2: 安裝 LibreNMS  ====================
 cd /opt/librenms
 echo 開始安裝 LibreNMS，請稍後
-#sudo ./scripts/composer_wrapper.php self-update --1
-sudo ./scripts/composer_wrapper.php self-update --stable
+sudo ./scripts/composer_wrapper.php self-update --1
+#sudo ./scripts/composer_wrapper.php self-update --stable
 sudo ./scripts/composer_wrapper.php install --no-dev
 
 # configure mysql
