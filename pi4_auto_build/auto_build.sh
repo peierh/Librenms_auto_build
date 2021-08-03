@@ -183,10 +183,8 @@ sudo systemctl restart mysql >> $logPath
 # configure php
 echo 設定php
 echo "$(date '+%Y-%m-%d %H:%M:%S')    configure php" >> $logPath
-#sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/apache2/php.ini >> $logPath 2>&1
-#sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/cli/php.ini >> $logPath 2>&1
-sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/apache2/php.ini >> $logPath 2>&1
-sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/cli/php.ini >> $logPath 2>&1
+sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/apache2/php.ini >> $logPath 2>&1
+sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/7.2/cli/php.ini >> $logPath 2>&1
 
 sudo a2enmod php7.2 >> $logPath
 sudo a2dismod mpm_event >> $logPath
