@@ -141,7 +141,7 @@ sudo useradd librenms -d /opt/librenms -M -r >> $logPath
 sudo usermod -a -G librenms www-data >> $logPath
 
 # set permissions
-echo 挑整 librenms 權限
+echo 調整 librenms 權限
 echo "$(date '+%Y-%m-%d %H:%M:%S')    set permissions" >> $logPath
 sudo chown -R librenms:librenms /opt/librenms >> $logPath
 sudo chmod 777 /opt/librenms >> $logPath
