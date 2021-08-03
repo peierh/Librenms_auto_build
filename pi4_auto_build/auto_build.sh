@@ -130,10 +130,9 @@ sudo chmod 777 /opt
 cd /opt
 echo "$(date '+%Y-%m-%d %H:%M:%S')    git clone NMS" >> $logPath
 sudo git clone https://github.com/peierh/librenms.git
-cd /opt/librenms
+#cd /opt/librenms
 #sudo git checkout 1_62
-sudo git checkout 21_7
-cd /opt
+#cd /opt
 
 # add librenms user
 echo 新增 librenms 使用者
