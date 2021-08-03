@@ -117,13 +117,13 @@ echo 作業系統更新
 echo "$(date '+%Y-%m-%d %H:%M:%S')    apt update" >> $logPath
 sudo apt-get update >> $logPath
 #sudo apt-get install php7.2-cli -y >> $logPath
-sudo apt-get install php8.0-cli -y >> $logPath
+sudo apt-get install php7.3-cli -y >> $logPath
 sudo apt-get update >> $logPath
 sudo apt-get install vim curl -y >> $logPath
 sudo apt-get install influxdb influxdb-client -y >> $logPath
 sudo apt-get install acl -y >> $logPath
 #sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.2 mariadb-client mariadb-server mtr-tiny nmap php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-snmp php7.2-xml php7.2-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
-sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php8.0 mariadb-client mariadb-server mtr-tiny nmap php8.0-cli php8.0-curl php8.0-gd php8.0-json php8.0-mbstring php8.0-mysql php8.0-snmp php8.0-xml php8.0-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
+sudo apt-get install apache2 composer fping git graphviz imagemagick libapache2-mod-php7.3 mariadb-client mariadb-server mtr-tiny nmap php7.3-cli php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-snmp php7.3-xml php7.3-zip python-memcache python-mysqldb rrdtool snmp snmpd whois -y >> $logPath
 sudo apt-get install python3 python3-pip python3-dev -y >> $logPath
 
 # download librenms
@@ -192,7 +192,7 @@ sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/apache2/php.ini >>
 sudo sed -i "941c date.timezone = "Asia/Taipei"" /etc/php/8.0/cli/php.ini >> $logPath 2>&1
 
 #sudo a2enmod php7.2 >> $logPath
-sudo a2enmod php8.0 >> $logPath
+sudo a2enmod php7.3 >> $logPath
 sudo a2dismod mpm_event >> $logPath
 sudo a2enmod mpm_prefork >> $logPath
 
